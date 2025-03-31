@@ -7,7 +7,7 @@ python-dotenv
 pytest
 pytest-asyncio
 pytest-cov
-pre-commit
+pytest-mock
 pydantic
 black
 mypy
