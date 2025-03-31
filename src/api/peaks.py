@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Response
 from sqlmodel import Session, select
 from src.models.peak import Peak
 from src.core.database import get_db
@@ -30,3 +30,19 @@ def create_peak(peak: Peak, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=400, detail=f"Error creating peak: {str(e)}"
         ) from e
+
+
+@router.put("/peaks/peak/{peak_id}", response_model=Peak)
+async def update_peak(peak_id: int, peak: Peak, db: Session = Depends(get_db)):
+    db_peak = db.exec(select(Peak).where(Peak.id == peak_id)).first()
+    if db_peak is None:
+        raise HTTPException(status_code=404, detail="Peak not found")
+    
+    # Update the Peak fields
+    db_peak.name = peak.name
+    db_peak.lat = peak.lat
+    db_peak.lon = peak.lon
+    db_peak.altitude = peak.altitude
+    db.commit()
+    db.refresh(db_peak)
+    return Response(status_code=204)
