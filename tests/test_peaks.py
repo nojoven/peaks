@@ -60,8 +60,44 @@ async def test_create_peak(client):
         db.delete(peak_in_db)
         db.commit()  # Ensure the delete is committed
 
+
 @pytest.mark.asyncio
-async def test_create_peak_missing_data(client):
+async def test_read_peak(client):
+    """Test the creation of a Peak via the API."""
+    peak_data = {
+        "name": "Mont Blanc",
+        "lat": 45.8325,
+        "lon": 6.8650,
+        "altitude": 4808
+    }
+
+    create_response = client.post("/peaks/peak/create", json=peak_data)    
+    created_data = create_response.json()
+    peak_id = created_data["id"]
+    
+    read_response = client.get(f"/peaks/peak/{peak_id}")
+    assert read_response.status_code == 200
+    read_data = read_response.json()
+    assert read_data["id"] == peak_id
+    assert read_data["name"] == peak_data["name"]
+    assert read_data["lat"] == peak_data["lat"]
+    assert read_data["lon"] == peak_data["lon"]
+    assert read_data["altitude"] == peak_data["altitude"]
+    
+  
+
+# Verify that the Peak exists in the database
+    with Session(engine) as db:
+        peak_in_db = db.exec(select(Peak).where(Peak.id == peak_id)).first()
+        # Deleting the Peak from the database to clean up
+        db.delete(peak_in_db)
+        db.commit()  # Ensure the delete is committed
+
+
+
+
+@pytest.mark.asyncio
+async def test_create_peak_missing_name(client):
     """Test that invalid data returns an error."""
     # Sending a peak with invalid data (e.g., missing 'name')
     response = client.post(
