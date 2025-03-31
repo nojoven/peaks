@@ -145,7 +145,7 @@ async def test_update_peak(client):
         "altitude": 5000
     }
 
-    update_response = client.put(f"/peaks/{peak_id}", json=updated_data)
+    update_response = client.put(f"/peaks/peak/{peak_id}", json=updated_data)
     assert update_response.status_code == 204
 
 
