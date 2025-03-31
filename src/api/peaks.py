@@ -1,10 +1,19 @@
 from fastapi import APIRouter, HTTPException, Depends
-from sqlmodel import Session
+from sqlmodel import Session, select
 from src.models.peak import Peak
 from src.core.database import get_db
 
 # Create a router for the peaks endpoints
 router = APIRouter()
+
+
+@router.get("/peaks/peak/{peak_id}", response_model=Peak)
+async def read_peak(peak_id: int, db: Session = Depends(get_db)):
+    peak = db.exec(select(Peak).where(Peak.id == peak_id)).first()
+    if peak is None:
+        raise HTTPException(status_code=404, detail="Peak not found")
+    return peak
+
 
 @router.post("/peaks/peak/create", response_model=Peak, status_code=201)
 def create_peak(peak: Peak, db: Session = Depends(get_db)):
