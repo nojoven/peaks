@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends, Response
+from fastapi import APIRouter, HTTPException, Depends, Response, Query
 from sqlmodel import Session, select
 from src.models.peak import Peak
 from src.core.database import get_db
+from typing import List
 
 # Create a router for the peaks endpoints
 router = APIRouter()
@@ -16,7 +17,7 @@ async def read_peak(peak_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/peaks/peak/create", response_model=Peak, status_code=201)
-def create_peak(peak: Peak, db: Session = Depends(get_db)):
+async def create_peak(peak: Peak, db: Session = Depends(get_db)):
     """Create a new peak in the database."""
     try:
         # Add the peak to the session
@@ -31,6 +32,20 @@ def create_peak(peak: Peak, db: Session = Depends(get_db)):
             status_code=400, detail=f"Error creating peak: {str(e)}"
         ) from e
 
+@router.post("/peaks/create", response_model=List[Peak], status_code=201)
+async def bulk_create_peaks(peaks: List[Peak], db: Session = Depends(get_db)):
+    """Bulk create peaks from a list."""
+    try:
+        db.add_all(peaks)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=400, detail=f"Error bulk creating of peaks: {str(e)}"
+        ) from e
+    
+    return Response(status_code=201, content="Peaks were inserted successfully")
+    
 
 @router.put("/peaks/peak/{peak_id}", response_model=Peak)
 async def update_peak(peak_id: int, peak: Peak, db: Session = Depends(get_db)):
@@ -57,3 +72,27 @@ async def delete_peak(peak_id: int, db: Session = Depends(get_db)):
     db.delete(db_peak)
     db.commit()
     return Response(status_code=204)
+
+
+@router.get("/peaks/boundingbox", response_model=List[Peak])
+async def get_peaks_in_bounding_box(
+    min_lat: float = Query(..., description="Minimum latitude"),
+    max_lat: float = Query(..., description="Maximum latitude"),
+    min_lon: float = Query(..., description="Minimum longitude"),
+    max_lon: float = Query(..., description="Maximum longitude"),
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve peaks within a given geographical bounding box.
+    """
+    statement = select(Peak).where(
+        Peak.lat >= min_lat,
+        Peak.lat <= max_lat,
+        Peak.lon >= min_lon,
+        Peak.lon <= max_lon
+    )
+    results = db.exec(statement)
+    peaks = results.all()
+    if not len(peaks):
+        raise HTTPException(status_code=404, detail="No peaks found in the bounding box")
+    return peaks
