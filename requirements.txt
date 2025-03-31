@@ -1,6 +1,7 @@
 fastapi[all]
 sqlalchemy
 psycopg
+psycopg-binary
 alembic
 python-dotenv
 pytest
@@ -12,3 +13,4 @@ black
 mypy
 httpx
 isort
+sqlmodel
