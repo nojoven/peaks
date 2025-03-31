@@ -84,7 +84,9 @@ async def test_read_peak(client):
     assert read_data["lon"] == peak_data["lon"]
     assert read_data["altitude"] == peak_data["altitude"]
     
-  
+    not_found_response = client.get("/peaks/peak/999999999")
+    assert not_found_response.status_code == 404
+
 
 # Verify that the Peak exists in the database
     with Session(engine) as db:
