@@ -15,7 +15,8 @@ def session_fixture():
     SQLModel.metadata.create_all(engine)  # Create tables
     with Session(engine) as session:
         yield session  # Provide session to tests
-    SQLModel.metadata.drop_all(engine)  # Cleanup after tests
+    for table in reversed(SQLModel.metadata.sorted_tables):
+        engine.execute(f"DELETE FROM {table.name}")  # Cleanup after tests
 
 # Override FastAPI dependency injection to use test DB
 @pytest.fixture(name="client")
