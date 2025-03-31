@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/peaks
+    working_dir: /peaks  # Explicit working directory
+    volumes:
+      - .:/peaks  # Mount current directory to /peaks (for development)
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-bookworm
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
