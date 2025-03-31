@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Visual Studio Code
+.vscode

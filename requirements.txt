@@ -1,0 +1,14 @@
+fastapi[standard]
+sqlalchemy
+psycopg
+alembic
+python-dotenv
+pytest
+pytest-asyncio
+pytest-cov
+pre-commit
+pydantic
+black
+mypy
+httpx
+isort
