@@ -21,9 +21,9 @@ def create_db():
 
 # Get session DB
 def get_db() -> Generator[Session, None, None]:
-    with Session(engine) as session:
-        try:
+    try:
+        with Session(engine) as session:
             yield session
-        except Exception as e:
-            logging.error("Error during DB session usage: %s", e)
-            raise
+    except Exception as e:
+        logging.error("Error during DB session usage: %s", e)
+        raise

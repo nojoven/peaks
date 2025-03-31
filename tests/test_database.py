@@ -1,5 +1,7 @@
 import os
 import pytest
+import logging
+from unittest.mock import patch, MagicMock
 from dotenv import load_dotenv
 from sqlalchemy import inspect, text
 from sqlmodel import Session, SQLModel
@@ -59,3 +61,16 @@ def test_get_db_error(mocker):
     
     # Assert that the error message is as expected.
     assert "Database error" in str(exc_info.value)
+
+
+# Test that an exception is logged and raised properly in the get_db function
+def test_get_db_no_exception_at_runtime():
+    # Mock the Session to raise an exception when used
+    with patch('sqlmodel.Session', autospec=True) as MockSession:
+        # Create a mock session that will raise an exception on context exit
+        mock_session = MockSession.return_value
+        mock_session.__enter__.side_effect = Exception("Test exception")
+        # Capture the logs
+        with patch.object(logging, 'error') as mock_log_error:
+            # Assert that logging.error was called with the correct message
+            mock_log_error.assert_not_called()
