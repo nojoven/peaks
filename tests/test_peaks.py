@@ -4,6 +4,7 @@ from sqlmodel import Session, SQLModel, select
 from src.main import app
 from src.core.database import engine, get_db
 from src.models.peak import Peak
+from tests.tests_helpers import create_peak_data
 
 
 # Use a test database (in-memory for example)
@@ -29,12 +30,7 @@ def client_fixture(session):
 @pytest.mark.asyncio
 async def test_create_peak(client):
     """Test the creation of a Peak via the API."""
-    peak_data = {
-        "name": "Mont Blanc",
-        "lat": 45.8325,
-        "lon": 6.8650,
-        "altitude": 4808
-    }
+    peak_data = create_peak_data()
 
     response = client.post("/peaks/peak/create", json=peak_data)
 
@@ -88,12 +84,7 @@ async def test_create_peak_missing_name(client):
 @pytest.mark.asyncio
 async def test_read_peak(client):
     """Test the creation of a Peak via the API."""
-    peak_data = {
-        "name": "Mont Blanc",
-        "lat": 45.8325,
-        "lon": 6.8650,
-        "altitude": 4808
-    }
+    peak_data = create_peak_data()
 
     create_response = client.post("/peaks/peak/create", json=peak_data)    
     created_data = create_response.json()
@@ -124,12 +115,7 @@ async def test_read_peak(client):
 @pytest.mark.asyncio
 async def test_update_peak(client):
     """Test the updating of a Peak via the API."""
-    peak_data = {
-        "name": "Mont Blanc",
-        "lat": 45.8325,
-        "lon": 6.8650,
-        "altitude": 4808
-    }
+    peak_data = create_peak_data()
 
     # First, create a peak
     create_response = client.post("/peaks/peak/create", json=peak_data)
@@ -146,7 +132,7 @@ async def test_update_peak(client):
     }
 
     update_response = client.put(f"/peaks/peak/{peak_id}", json=updated_data)
-    assert update_response.status_code == 204
+    assert update_response.status_code == 200
 
 
     # Check that the updated data is returned correctly
@@ -163,4 +149,30 @@ async def test_update_peak(client):
         peak_in_db = db.exec(select(Peak).where(Peak.id == peak_id)).first()
         db.delete(peak_in_db)
         db.commit()  # Ensure the delete is committed
+
+
+@pytest.mark.asyncio
+async def test_delete_peak(client):
+    """Test the deletion of a Peak via the API."""
+    peak_data = create_peak_data()
+
+    # First, create a peak
+    create_response = client.post("/peaks/peak/create", json=peak_data)
+    assert create_response.status_code == 201
+    created_data = create_response.json()
+    peak_id = created_data["id"]
+
+    # Now, delete the peak
+    delete_response = client.delete(f"/peaks/peak/{peak_id}")
+    assert delete_response.status_code == 204
+
+    # Now, try to delete a peak that does not exist
+    not_found_delete_response = client.delete(f"/peaks/peak/{peak_id+1}")
+    assert not_found_delete_response.status_code == 404
+    assert not_found_delete_response.json()["detail"] == "Peak not found"
+
+    # Ensure the peak is deleted from the database
+    with Session(engine) as db:
+        peak_in_db = db.exec(select(Peak).where(Peak.id == peak_id)).first()
+        assert peak_in_db is None  # Peak should no longer exist
 

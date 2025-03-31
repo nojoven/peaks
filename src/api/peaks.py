@@ -45,4 +45,15 @@ async def update_peak(peak_id: int, peak: Peak, db: Session = Depends(get_db)):
     db_peak.altitude = peak.altitude
     db.commit()
     db.refresh(db_peak)
+    return Response(status_code=200)
+
+
+@router.delete("/peaks/peak/{peak_id}")
+async def delete_peak(peak_id: int, db: Session = Depends(get_db)):
+    db_peak = db.exec(select(Peak).where(Peak.id == peak_id)).first()
+    if db_peak is None:
+        raise HTTPException(status_code=404, detail="Peak not found")
+    
+    db.delete(db_peak)
+    db.commit()
     return Response(status_code=204)
