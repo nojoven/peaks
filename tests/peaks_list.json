@@ -1,0 +1,242 @@
+[
+    {
+      "lat": 45.8326,
+      "lon": 6.8654,
+      "altitude": 4808,
+      "name": "Mont Blanc"
+    },
+    {
+      "lat": 46.5367,
+      "lon": 8.1278,
+      "altitude": 4274,
+      "name": "Finsteraarhorn"
+    },
+    {
+      "lat": 27.9881,
+      "lon": 86.9250,
+      "altitude": 8848,
+      "name": "Mount Everest"
+    },
+    {
+      "lat": -32.6530,
+      "lon": -70.0118,
+      "altitude": 6961,
+      "name": "Aconcagua"
+    },
+    {
+      "lat": 63.0695,
+      "lon": -151.0074,
+      "altitude": 6190,
+      "name": "Denali"
+    },
+    {
+      "lat": 47.4204,
+      "lon": 10.9853,
+      "altitude": 2962,
+      "name": "Zugspitze"
+    },
+    {
+      "lat": 1.4044,
+      "lon": 30.3308,
+      "altitude": 5109,
+      "name": "Mount Stanley"
+    },
+    {
+      "lat": 35.3606,
+      "lon": 138.7274,
+      "altitude": 3776,
+      "name": "Mount Fuji"
+    },
+    {
+      "lat": 46.5579,
+      "lon": 7.9924,
+      "altitude": 4166,
+      "name": "Jungfrau"
+    },
+    {
+      "lat": 45.9366,
+      "lon": 7.8667,
+      "altitude": 4478,
+      "name": "Matterhorn"
+    },
+    {
+      "lat": 44.9236,
+      "lon": 6.8686,
+      "altitude": 3851,
+      "name": "Barre des Écrins"
+    },
+    {
+      "lat": 47.0692,
+      "lon": 12.6953,
+      "altitude": 3798,
+      "name": "Grossglockner"
+    },
+    {
+      "lat": 46.1025,
+      "lon": 7.7086,
+      "altitude": 4342,
+      "name": "Dent Blanche"
+    },
+    {
+      "lat": 44.4758,
+      "lon": 7.3847,
+      "altitude": 3841,
+      "name": "Monviso"
+    },
+    {
+      "lat": 46.5928,
+      "lon": 8.1239,
+      "altitude": 4106,
+      "name": "Aletschhorn"
+    },
+    {
+      "lat": 47.2708,
+      "lon": 11.0,
+      "altitude": 2968,
+      "name": "Kreuzjoch"
+    },
+    {
+      "lat": 46.4436,
+      "lon": 7.3158,
+      "altitude": 3248,
+      "name": "Wildhorn"
+    },
+    {
+      "lat": 45.0,
+      "lon": 6.5,
+      "altitude": 3564,
+      "name": "Grand Rocher"
+    },
+    {
+      "lat": 47.0,
+      "lon": 9.0,
+      "altitude": 2899,
+      "name": "Pizol"
+    },
+    {
+      "lat": 44.8333,
+      "lon": 6.5,
+      "altitude": 2987,
+      "name": "Pic de Chabrières"
+    },
+    {
+      "lat": 48.1397,
+      "lon": 11.1119,
+      "altitude": 1801,
+      "name": "Wank"
+    },
+    {
+      "lat": 46.9019,
+      "lon": 9.8436,
+      "altitude": 2501,
+      "name": "Säntis"
+    },
+    {
+      "lat": 44.5,
+      "lon": 7.0,
+      "altitude": 3280,
+      "name": "Punta Gastaldi"
+    },
+    {
+      "lat": 47.5,
+      "lon": 10.5,
+      "altitude": 2086,
+      "name": "Nebelhorn"
+    },
+    {
+      "lat": 45.25,
+      "lon": 6.75,
+      "altitude": 3752,
+      "name": "Aiguille de la Grande Sassière"
+    },
+    {
+      "lat": 28.6290,
+      "lon": 83.5446,
+      "altitude": 8167,
+      "name": "Dhaulagiri"
+    },
+    {
+      "lat": 38.9228,
+      "lon": -106.3608,
+      "altitude": 4392,
+      "name": "Mount Elbert"
+    },
+    {
+      "lat": -0.1500,
+      "lon": 78.5667,
+      "altitude": 5897,
+      "name": "Cotopaxi"
+    },
+    {
+      "lat": 40.3601,
+      "lon": -105.6153,
+      "altitude": 4345,
+      "name": "Longs Peak"
+    },
+    {
+      "lat": 60.5672,
+      "lon": -140.4055,
+      "altitude": 5959,
+      "name": "Mount Logan"
+    },
+    {
+      "lat": 19.0319,
+      "lon": 98.4842,
+      "altitude": 2565,
+      "name": "Doi Inthanon"
+    },
+    {
+      "lat": 36.5786,
+      "lon": -118.2920,
+      "altitude": 4421,
+      "name": "Mount Whitney"
+    },
+    {
+      "lat": 43.3700,
+      "lon": 42.4392,
+      "altitude": 5205,
+      "name": "Mount Elbrus"
+    },
+    {
+      "lat": -16.6425,
+      "lon": -68.1089,
+      "altitude": 6438,
+      "name": "Illimani"
+    },
+    {
+      "lat": 39.6420,
+      "lon": -105.8214,
+      "altitude": 4348,
+      "name": "Mount Evans"
+    },
+    {
+      "lat": 46.8523,
+      "lon": 121.7606,
+      "altitude": 3742,
+      "name": "Mount Jade"
+    },
+    {
+      "lat": 19.4808,
+      "lon": -99.2044,
+      "altitude": 5465,
+      "name": "Popocatépetl"
+    },
+    {
+      "lat": 37.5775,
+      "lon": 14.2639,
+      "altitude": 3350,
+      "name": "Mount Etna"
+    },
+    {
+      "lat": 64.0000,
+      "lon": -16.6500,
+      "altitude": 2110,
+      "name": "Hvannadalshnúkur"
+    },
+    {
+      "lat": 42.6336,
+      "lon": 0.6569,
+      "altitude": 3404,
+      "name": "Aneto"
+    }
+  ]
