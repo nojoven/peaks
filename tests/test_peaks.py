@@ -1,6 +1,7 @@
 import json
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import text
 from sqlmodel import Session, delete, SQLModel, select
 from src.main import app
 from src.core.database import engine, get_db
@@ -15,8 +16,11 @@ def session_fixture():
     SQLModel.metadata.create_all(engine)  # Create tables
     with Session(engine) as session:
         yield session  # Provide session to tests
-    for table in reversed(SQLModel.metadata.sorted_tables):
-        engine.execute(f"DELETE FROM {table.name}")  # Cleanup after tests
+    # Cleanup after tests: delete all rows in the tables
+    with Session(engine) as session:
+        for table in reversed(SQLModel.metadata.sorted_tables):
+            session.exec(text(f"DELETE FROM {table.name}"))  # Delete all data from the table
+        session.commit()  # Commit the transaction to ensure changes are saved
 
 # Override FastAPI dependency injection to use test DB
 @pytest.fixture(name="client")
