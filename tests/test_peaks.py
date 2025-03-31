@@ -1,6 +1,7 @@
+import json
 import pytest
 from fastapi.testclient import TestClient
-from sqlmodel import Session, SQLModel, select
+from sqlmodel import Session, delete, SQLModel, select
 from src.main import app
 from src.core.database import engine, get_db
 from src.models.peak import Peak
@@ -175,4 +176,96 @@ async def test_delete_peak(client):
     with Session(engine) as db:
         peak_in_db = db.exec(select(Peak).where(Peak.id == peak_id)).first()
         assert peak_in_db is None  # Peak should no longer exist
+
+
+@pytest.fixture
+def get_peaks_list():
+    with open("tests/peaks_list.json", "r") as f:
+        peaks_list = json.load(f)
+        assert isinstance(peaks_list, list), "Peaks list should be a list"
+        assert len(peaks_list) > 0, "Peaks list should not be empty"
+    return peaks_list
+
+@pytest.mark.asyncio
+async def test_bulk_create_peaks(client, get_peaks_list):
+    """
+    Test the bulk creation of peaks via the API.
+    """
+    input_count = len(get_peaks_list)
+
+    response = client.post("/peaks/create", json=get_peaks_list)
+    assert response.status_code == 201, "Bulk creation should return 201 status"
+    assert response.content.decode() == "Peaks were inserted successfully", "Check if insertion success message is correct"
+    
+    
+ 
+    # Verify each created peak has an auto-generated ID
+    with Session(engine) as db:
+        # Get all inserted peaks
+        bulk_insert_result = db.exec(select(Peak))
+        inserted_peaks = bulk_insert_result.all()
+        #
+        assert len(inserted_peaks) == input_count, f"Inserted ({len(inserted_peaks)}) elements should be equal to ({input_count})"
+        
+        #
+        for peak_data in get_peaks_list:
+            peak = db.exec(select(Peak).where(Peak.name == peak_data["name"])).first()
+            assert peak is not None, f"Peak with name {peak_data['name']} should exist in the database"
+            assert peak.name == peak_data["name"], f"Peak name mismatch: expected {peak_data['name']}, found {peak.name}"
+            assert peak.lat == peak_data["lat"], f"Peak latitude mismatch: expected {peak_data['lat']}, found {peak.lat}"
+            assert peak.lon == peak_data["lon"], f"Peak longitude mismatch: expected {peak_data['lon']}, found {peak.lon}"
+            assert peak.altitude == peak_data["altitude"], f"Peak altitude mismatch: expected {peak_data['altitude']}, found {peak.altitude}"
+
+    # Cleanup: Delete the peaks after the test to ensure no pollution in the database
+    with Session(engine) as db:
+        for peak_element in get_peaks_list:
+            peak = db.exec(select(Peak).where(Peak.name == peak_element["name"])).first()
+            if peak:
+                db.delete(peak)
+        db.commit()
+
+    # Check that the table is empty after the deletion
+    with Session(engine) as db:
+        remaining_peaks = db.exec(select(Peak)).all()
+        assert len(remaining_peaks) == 0, "The Peak table should be empty after cleanup"
+
+
+@pytest.mark.asyncio
+async def test_get_peaks_in_bounding_box(client, get_peaks_list):
+    """Test the retrieval of peaks within a bounding box."""
+
+    bulk_response = client.post("/peaks/create", json=get_peaks_list)
+    assert bulk_response.status_code == 201, "Bulk creation should return 201 status"
+    assert bulk_response.content.decode() == "Peaks were inserted successfully", "Bulk insertion message mismatch"
+
+    # Define the bounding box coordinates
+    bounding_box_coords = {
+        "min_lat": 45.8,
+        "max_lat": 46.0,
+        "min_lon": 6.8,
+        "max_lon": 7.9
+    }
+    
+    # Perform the request to get peaks within the bounding box
+    get_response = client.get("/peaks/boundingbox", params=bounding_box_coords)
+    filtered_peaks = get_response.json()
+    expected_count = 2
+
+    # Assert the response status code is 200 OK
+    assert get_response.status_code == 200
+    # Assert the response is a list of peaks
+    assert isinstance(filtered_peaks, list), "Response should be a list of peaks"
+    # Assert the number of peaks in the bounding box is correct
+    assert len(filtered_peaks) == expected_count, f"Expected {expected_count} peaks in bounding box, got {len(filtered_peaks)}"
+    
+    # Clean up the database after the test
+    with Session(engine) as db:
+        for peak in get_peaks_list:
+            db.exec(delete(Peak).where(Peak.name == peak["name"]))
+        db.commit()
+
+    # Ensure the table is empty after cleanup
+    with Session(engine) as db:
+        remaining_peaks = db.exec(select(Peak)).all()
+        assert len(remaining_peaks) == 0, "The Peak table should be empty after cleanup"
 
