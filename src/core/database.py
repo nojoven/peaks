@@ -1,4 +1,4 @@
-# src/core/db.py
+# src/core/database.py
 
 import logging
 import os
