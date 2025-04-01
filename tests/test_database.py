@@ -25,10 +25,10 @@ def test_get_db_url_success(monkeypatch):
     monkeypatch.setenv("POSTGRES_USER", "test_user")
     monkeypatch.setenv("POSTGRES_PASSWORD", "test_pass")
     monkeypatch.setenv("DATABASE_ADDRESS", "localhost")
-    monkeypatch.setenv("DATABASE_PORT", "5432")
+    monkeypatch.setenv("DATABASE_PORT", "5433")
     monkeypatch.setenv("DATABASE_NAME", "test_db")
 
-    expected_url = "postgresql+psycopg://test_user:test_pass@localhost:5432/test_db"
+    expected_url = "postgresql+psycopg://test_user:test_pass@localhost:5433/test_db"
     assert get_db_url() == expected_url
 
 @pytest.mark.parametrize("missing_var, error_message", [
@@ -54,15 +54,9 @@ def test_get_db_url_missing_env_vars(monkeypatch, missing_var, error_message):
     with pytest.raises(ValueError, match=error_message):
         get_db_url()
 
+
 DATABASE_URL = get_db_url()
 
-def test_database_url():
-    """
-    Test that the DATABASE_URL environment variable is set.
-    """
-    assert DATABASE_URL is not None
-    assert isinstance(DATABASE_URL, str)
-    assert len(DATABASE_URL)
 
 def test_create_db():
     """
