@@ -1,4 +1,4 @@
-import os
+
 import pytest
 import logging
 from unittest.mock import patch, MagicMock
@@ -6,30 +6,55 @@ from dotenv import load_dotenv
 from sqlalchemy import inspect, text
 from sqlmodel import Session, SQLModel
 from src.core.database import engine, create_db, get_db
+from src.core.db_helpers import get_db_url
 from src.models.peak import Peak
 load_dotenv()
 
-DATABASE_ENGINE = os.getenv("DATABASE_ENGINE")
-if not DATABASE_ENGINE:
-    raise ValueError("DATABASE_ENGINE is not set in the environment variables.")
-DATABASE_USER = os.getenv("POSTGRES_USER")
-if not DATABASE_USER:
-    raise ValueError("DATABASE_USER is not set in the environment variables.")
-DATABASE_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-if not DATABASE_PASSWORD:
-    raise ValueError("DATABASE_PASSWORD is not set in the environment variables.")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
-if not DATABASE_NAME:
-    raise ValueError("DATABASE_NAME is not set in the environment variables.")
-DATABASE_ADDRESS = os.getenv("DATABASE_ADDRESS")
-if not DATABASE_ADDRESS:
-    raise ValueError("DATABASE_ADDRESS is not set in the environment variables.")
-DATABASE_PORT = os.getenv("DATABASE_PORT")
-if not DATABASE_PORT:
-    raise ValueError("DATABASE_PORT is not set in the environment variables.")
+
+def test_get_db_url():
+    DATABASE_URL = get_db_url()
+    assert DATABASE_URL is not None
+    assert isinstance(DATABASE_URL, str)
+    assert len(DATABASE_URL)
+    assert "://" in DATABASE_URL
 
 
-DATABASE_URL = f"{DATABASE_ENGINE}://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_ADDRESS}:{DATABASE_PORT}/{DATABASE_NAME}"
+def test_get_db_url_success(monkeypatch):
+    """ Teste si get_db_url retourne une URL correcte avec toutes les variables d'environnement définies. """
+    monkeypatch.setenv("DATABASE_ENGINE", "postgresql+psycopg")
+    monkeypatch.setenv("POSTGRES_USER", "test_user")
+    monkeypatch.setenv("POSTGRES_PASSWORD", "test_pass")
+    monkeypatch.setenv("DATABASE_ADDRESS", "localhost")
+    monkeypatch.setenv("DATABASE_PORT", "5432")
+    monkeypatch.setenv("DATABASE_NAME", "test_db")
+
+    expected_url = "postgresql+psycopg://test_user:test_pass@localhost:5432/test_db"
+    assert get_db_url() == expected_url
+
+@pytest.mark.parametrize("missing_var, error_message", [
+    ("DATABASE_ENGINE", "DATABASE_ENGINE is not set in the environment variables."),
+    ("POSTGRES_USER", "DATABASE_USER is not set in the environment variables."),
+    ("POSTGRES_PASSWORD", "DATABASE_PASSWORD is not set in the environment variables."),
+    ("DATABASE_ADDRESS", "DATABASE_ADDRESS is not set in the environment variables."),
+    ("DATABASE_PORT", "DATABASE_PORT is not set in the environment variables."),
+    ("DATABASE_NAME", "DATABASE_NAME is not set in the environment variables."),
+])
+def test_get_db_url_missing_env_vars(monkeypatch, missing_var, error_message):
+    """ Teste si get_db_url lève une ValueError quand une variable d'environnement est absente. """
+    monkeypatch.setenv("DATABASE_ENGINE", "postgresql+psycopg")
+    monkeypatch.setenv("POSTGRES_USER", "test_user")
+    monkeypatch.setenv("POSTGRES_PASSWORD", "test_pass")
+    monkeypatch.setenv("DATABASE_ADDRESS", "localhost")
+    monkeypatch.setenv("DATABASE_PORT", "5432")
+    monkeypatch.setenv("DATABASE_NAME", "test_db")
+
+    # Supprime la variable d'environnement testée
+    monkeypatch.delenv(missing_var, raising=False)
+
+    with pytest.raises(ValueError, match=error_message):
+        get_db_url()
+
+DATABASE_URL = get_db_url()
 
 def test_database_url():
     """
