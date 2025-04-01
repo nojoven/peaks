@@ -1,0 +1,50 @@
+name: CI with Docker Compose
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clone repository
+        uses: actions/checkout@v4
+
+      - name: 🔑 Create .env file with secrets
+        run: |
+          echo "DATABASE_ENGINE=${{ secrets.DATABASE_ENGINE }}" >> .env
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
+          echo "DATABASE_ADDRESS=db" >> .env
+
+      - name: 🐳 Start Docker Compose
+        run: docker-compose up -d
+
+      - name: ⏳ Wait for PostgreSQL
+        run: |
+          echo "Waiting for PostgreSQL..."
+          for i in {1..30}; do
+            docker-compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -c "SELECT 1" && break
+            echo "PostgreSQL not ready yet, waiting..."
+            sleep 2
+          done
+
+      - name: 🔄 Run Alembic migrations
+        run: docker-compose exec -T api alembic upgrade head
+
+      - name: 🏗 Check running services
+        run: docker ps -a
+
+      - name: ✅ Run tests
+        run: docker-compose exec api pytest tests/
+
+      - name: 🧹 Cleanup containers
+        if: always()
+        run: docker-compose down
