@@ -16,3 +16,4 @@ isort
 sqlmodel
 mkdocs
 mkdocs-material
+sentry-sdk[fastapi]
