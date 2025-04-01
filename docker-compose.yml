@@ -7,7 +7,7 @@ services:
       - "8000:8000"
     env_file: .env
     environment:
-      - DATABASE_URL=${DATABASE_ENGINE}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${DATABASE_PORT}/${DATABASE_NAME}
+      - DATABASE_URL="${DATABASE_ENGINE}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${DATABASE_NAME}"
     working_dir: /peaks  # Explicit working directory
     volumes:
       - .:/peaks  # Mount current directory to /peaks (for development)
@@ -29,7 +29,7 @@ services:
       timeout: 5s
       retries: 5
     ports:
-      - "${DATABASE_PORT:-5433}:5433"
+      - "${DATABASE_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
