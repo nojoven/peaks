@@ -31,7 +31,7 @@ jobs:
       - name: ⏳ Wait for PostgreSQL
         run: |
           echo "Waiting for PostgreSQL..."
-          for i in {1..30}; do
+          for i in {1..40}; do
             docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -c "SELECT 1" && break
             echo "PostgreSQL not ready yet, waiting..."
             sleep 2
