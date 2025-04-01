@@ -1,8 +1,8 @@
-## Database
+# Database
 
 The API uses a PostgreSQL database to store peak data.
 
-### Database Schema
+## Database Schema
 
 - **`peaks` table:**
   - `id` (SERIAL PRIMARY KEY)
@@ -11,11 +11,10 @@ The API uses a PostgreSQL database to store peak data.
   - `longitude` (FLOAT)
   - `altitude` (FLOAT)
 
-  ### Database Migrations
+## Database Migrations
 
 Alembic is used for database migrations.
 
-
-### Environment Variables
+## Environment Variables
 
 - `DATABASE_URL`: PostgreSQL database connection URL.

@@ -1,8 +1,8 @@
-## API Reference
+# API Reference
 
 This section documents the API endpoints and their parameters, reflecting the current implementation using FastAPI and SQLModel.
 
-### Endpoints
+## Endpoints
 
 - **`GET /peaks/peak/{peak_id}`:** Retrieve a peak by its ID.
   - Parameters:
@@ -58,7 +58,7 @@ This section documents the API endpoints and their parameters, reflecting the cu
     - Returns a 404 error if no peaks are found.
   - Example: `GET /peaks/boundingbox?min_lat=44.5&max_lat=46.5&min_lon=5.5&max_lon=7.5`
 
-### Data Models
+## Data Models
 
 - **Peak:**
   - `id`: Integer (auto-incrementing)
@@ -67,11 +67,11 @@ This section documents the API endpoints and their parameters, reflecting the cu
   - `lon`: Float
   - `altitude`: Float
 
-### Dependencies
+## Dependencies
 
 - `db: Session = Depends(get_db)`: Injects a database session into each endpoint.
 
-### Error Handling
+## Error Handling
 
 - Endpoints raise `HTTPException` with appropriate status codes (404, 400) and error details when necessary.
 - Database transactions are rolled back in case of errors to maintain data integrity.

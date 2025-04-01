@@ -7,13 +7,8 @@ nav:
   - Home: index.md
   - Try it out: try_it_out.md
   - API Reference: api_reference.md
-  - Authentication: authentication.md
   - Database: database.md
   - Configuration: configuration.md
   - CI/CD: ci_cd.md
   - Security: security.md
-  - To be added: to_be_added.md
-extra:
-  social:
-    - type: "github"
-      link: "https://github.com/nojoven/peaks"
+

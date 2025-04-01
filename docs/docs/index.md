@@ -12,7 +12,7 @@ This documentation provides a comprehensive guide to the Peaks API project, a si
 - [CI/CD](ci_cd.md)
 - [Security](security.md)
 
-## Home (index.md)
+## Home
 
 Welcome to the Mountain Peaks API documentation. This API allows you to manage mountain peak data, including creating, reading, updating, and deleting peak records, as well as retrieving peaks within a specified geographical bounding box.
 
@@ -25,7 +25,7 @@ This project is built using:
 - **Docker & Docker Compose:** For containerization and deployment.
 - **GitHub Actions:** For continuous integration and deployment.
 
-## Try it out (try_it_out.md)
+## Try it out
 
 This section guides you through making API requests using tools like Postman or `curl`.
 
@@ -78,7 +78,7 @@ This section guides you through making API requests using tools like Postman or 
 
 
 
-## To be added (to_be_added.md)
+## To be added
 
 - Authentication and authorization.
 - Input validation and error handling.

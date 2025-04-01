@@ -1,4 +1,4 @@
 
-## Configuration (configuration.md)
+# Configuration
 
 The API is configured using environment variables.
