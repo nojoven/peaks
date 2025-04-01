@@ -46,6 +46,12 @@ jobs:
       - name: ✅ Run tests
         run: docker compose exec api pytest --cov=src --cov-report=term-missing tests/ -v
 
+      - name: Build MkDocs documentation
+        run: |
+          cd docs
+          mkdocs build --clean
+          ls -la site
+
       - name: 🧹 Cleanup containers
         if: always()
         run: docker compose down

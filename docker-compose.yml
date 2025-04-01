@@ -10,7 +10,8 @@ services:
       - DATABASE_URL="${DATABASE_ENGINE}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${DATABASE_NAME}"
     working_dir: /peaks  # Explicit working directory
     volumes:
-      - .:/peaks  # Mount current directory to /peaks (for development)
+      - .:/peaks
+      - ./docs/site:/app/docs/site  # Mount current directory to /peaks (for development)
     depends_on:
       db:
         condition: service_healthy

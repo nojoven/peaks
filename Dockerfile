@@ -40,5 +40,8 @@ ENV PYTHONPATH=/peaks
 # Expose FastAPI port
 EXPOSE 8000
 
+# Copy MkDocs documentation
+COPY docs/site /app/docs/site
+
 # Launch FastAPI with Uvicorn
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
