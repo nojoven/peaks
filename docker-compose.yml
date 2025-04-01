@@ -5,8 +5,9 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file: .env
     environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/peaks
+      - DATABASE_URL=${DATABASE_ENGINE}://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${DATABASE_PORT}/${DATABASE_NAME}
     working_dir: /peaks  # Explicit working directory
     volumes:
       - .:/peaks  # Mount current directory to /peaks (for development)
@@ -17,13 +18,28 @@ services:
   db:
     image: postgres:16-bookworm
     env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_PORT: ${DATABASE_PORT}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    ports:
+      - "${DATABASE_PORT:-5433}:5433"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  alembic:
+    env_file: .env
+    build: .
+    command: alembic upgrade head
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
