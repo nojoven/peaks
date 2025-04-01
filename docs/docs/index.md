@@ -1,6 +1,6 @@
 # The Mountain Peaks API Documentation V1
 
-This documentation provides a comprehensive guide to the Peaks API project, a simple web service for storing and retrieving mountain peak data.
+This documentation provides a comprehensive guide to the Peaks API project, a simple web service for storing and retrieving mountain peaks data.
 
 ## Table of Contents
 
