@@ -6,6 +6,7 @@ from sqlmodel import SQLModel, create_engine
 from src.models.peak import Peak  # Import your models here
 from alembic import context
 from dotenv import load_dotenv
+from src.core.db_helpers import get_db_url
 
 # Load environment variables
 load_dotenv()
@@ -15,27 +16,10 @@ load_dotenv()
 config = context.config
 
 # Define the engine URL from the .env file or your settings
-DATABASE_ENGINE = os.getenv("DATABASE_ENGINE")
-if not DATABASE_ENGINE:
-    raise ValueError("DATABASE_ENGINE is not set in the environment variables.")
-DATABASE_USER = os.getenv("POSTGRES_USER")
-if not DATABASE_USER:
-    raise ValueError("DATABASE_USER is not set in the environment variables.")
-DATABASE_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-if not DATABASE_PASSWORD:
-    raise ValueError("DATABASE_PASSWORD is not set in the environment variables.")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
-if not DATABASE_NAME:
-    raise ValueError("DATABASE_NAME is not set in the environment variables.")
-DATABASE_ADDRESS = os.getenv("DATABASE_ADDRESS")
-if not DATABASE_ADDRESS:
-    raise ValueError("DATABASE_ADDRESS is not set in the environment variables.")
-DATABASE_PORT = os.getenv("DATABASE_PORT")
-if not DATABASE_PORT:
-    raise ValueError("DATABASE_PORT is not set in the environment variables.")
 
 
-DATABASE_URL = f"{DATABASE_ENGINE}://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_ADDRESS}:{DATABASE_PORT}/{DATABASE_NAME}"
+
+DATABASE_URL = get_db_url()
 
 # Set the SQLAlchemy URL in Alembic config dynamically
 config.set_main_option("sqlalchemy.url", DATABASE_URL)
