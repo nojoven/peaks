@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 from src.api.peaks import router as peaks_router
+from src.api.authentication import router as authentication_router, retrieve_peak_api_secret_key
 from dotenv import load_dotenv
 import os
 import sentry_sdk
@@ -35,9 +37,16 @@ app = FastAPI(
     openapi_url=None if IS_PRODUCTION else "/openapi.json"
 )
 
+# Add session middleware
+app.add_middleware(SessionMiddleware, secret_key=retrieve_peak_api_secret_key())
+
+# Include the authentication router
+app.include_router(authentication_router, prefix="/auth", tags=["auth"])
+
 # Include the peaks router
 app.include_router(peaks_router)
 
+print(app.routes)
 
 # Function to get the static directory
 def get_static_directory() -> str:

@@ -1,14 +1,17 @@
-from fastapi import APIRouter, HTTPException, Depends, Response, Query
+from fastapi import APIRouter, HTTPException, Depends, Response, Query, Request
 from sqlmodel import Session, select
 from src.models.peak import Peak
 from src.core.database import get_db
+from src.api.authentication import require_login
 from typing import List
+from fastapi.responses import RedirectResponse
 
 # Create a router for the peaks endpoints
 router = APIRouter()
 
 
 @router.get("/peaks/peak/{peak_id}", response_model=Peak)
+@require_login
 async def read_peak(peak_id: int, db: Session = Depends(get_db)):
     peak = db.exec(select(Peak).where(Peak.id == peak_id)).first()
     if peak is None:
@@ -17,6 +20,7 @@ async def read_peak(peak_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/peaks/peak/create", response_model=Peak, status_code=201)
+@require_login
 async def create_peak(peak: Peak, db: Session = Depends(get_db)):
     """Create a new peak in the database."""
     try:
@@ -33,6 +37,7 @@ async def create_peak(peak: Peak, db: Session = Depends(get_db)):
         ) from e
 
 @router.post("/peaks/create", response_model=List[Peak], status_code=201)
+@require_login
 async def bulk_create_peaks(peaks: List[Peak], db: Session = Depends(get_db)):
     """Bulk create peaks from a list."""
     try:
@@ -48,6 +53,7 @@ async def bulk_create_peaks(peaks: List[Peak], db: Session = Depends(get_db)):
     
 
 @router.put("/peaks/peak/{peak_id}", response_model=Peak)
+@require_login
 async def update_peak(peak_id: int, peak: Peak, db: Session = Depends(get_db)):
     db_peak = db.exec(select(Peak).where(Peak.id == peak_id)).first()
     if db_peak is None:
@@ -64,6 +70,7 @@ async def update_peak(peak_id: int, peak: Peak, db: Session = Depends(get_db)):
 
 
 @router.delete("/peaks/peak/{peak_id}")
+@require_login
 async def delete_peak(peak_id: int, db: Session = Depends(get_db)):
     db_peak = db.exec(select(Peak).where(Peak.id == peak_id)).first()
     if db_peak is None:
@@ -75,6 +82,7 @@ async def delete_peak(peak_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/peaks/boundingbox", response_model=List[Peak])
+@require_login
 async def get_peaks_in_bounding_box(
     min_lat: float = Query(..., description="Minimum latitude"),
     max_lat: float = Query(..., description="Maximum latitude"),
@@ -96,3 +104,9 @@ async def get_peaks_in_bounding_box(
     if not len(peaks):
         raise HTTPException(status_code=404, detail="No peaks found in the bounding box")
     return peaks
+
+
+@router.get("/peaks", response_model=List[Peak])
+@require_login
+async def fetch_peaks(request: Request, db: Session = Depends(get_db)):
+    return db.exec(select(Peak)).all()

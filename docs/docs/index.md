@@ -5,7 +5,7 @@ This documentation provides a comprehensive guide to the Peaks API project, a si
 ## Table of Contents
 
 - [Home](index.md)
-- [Try it out](try_it_out.md)
+- [Try it out](http://127.0.0.1:8000/auth/login)
 - [API Reference](api_reference.md)
 - [Database](database.md)
 - [Configuration](configuration.md)
