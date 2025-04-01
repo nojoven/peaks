@@ -27,7 +27,8 @@ This project is built using:
 
 ## Try it out
 
-This section guides you through making API requests using tools like Postman or `curl`.
+Connect to try it out.
+
 
 ### Prerequisites
 
