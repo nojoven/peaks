@@ -1,17 +1,58 @@
 # authentication.py
 import os
 import httpx
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, status, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from typing import Dict
 from functools import wraps
 from authlib.integrations.starlette_client import OAuth
 from starlette.responses import RedirectResponse
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
+# Initialize router
 router = APIRouter()
+# Initialize OAuth
 oauth = OAuth()
+# Use HTTP Bearer scheme for API Key authentication.
+api_key_scheme = HTTPBearer()
 
+def retrieve_manager_api_key():
+    if not os.getenv("MANAGER_API_KEY"):
+        raise ValueError("MANAGER_API_KEY is not set in the environment variables.")
+    return os.getenv("MANAGER_API_KEY")
+
+USERS_API_KEYS: Dict[str, str] = {
+    retrieve_manager_api_key(): "manager",
+}
+
+
+
+
+def get_api_key(credentials: HTTPAuthorizationCredentials = Depends(api_key_scheme)) -> str:
+    """
+    Validate the API key sent in the Authorization header.
+    Returns the associated user if valid.
+    """
+    api_key = credentials.credentials
+    if api_key not in USERS_API_KEYS:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API Key",
+        )
+    # Return the username associated with the API key.
+    return USERS_API_KEYS[api_key]
+
+@router.get("/profile", tags=["profile"])
+async def get_user_profile(user: str = Depends(get_api_key)):
+    """
+    Endpoint that returns the user's profile. Useful for testing authentication.
+    Accessible only if a valid API key is provided.
+    The present router is prefixed with "auth/" so the endpoint is only accessible at "auth/profile".
+    """
+    return {"user": user, "message": "This is your profile!"}
 
 def retrieve_peak_api_secret_key():
     """
@@ -144,3 +185,4 @@ async def logout(request: Request):
     print(f"Session après clear: {request.session}") 
     # Redirect properly to "/"
     return RedirectResponse(url="/", status_code=303)
+
