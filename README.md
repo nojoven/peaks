@@ -1,10 +1,12 @@
-# peaks
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/python-3.12.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com)
+# Peaks 
 
 A simple web service for storing and retrieving mountain peaks. This is a job application exercise.
 
+
 ## Expected results
 
-### Python
+###  Python
 
     - Fastapi framework and asynchronous programming
     - models/db tables for storing a peak location and attribute: lat, lon, altitude, name
@@ -109,4 +111,4 @@ If implemented, the secret manager should have its own container.
 
 A documentation page is required (e.g. Swagger). The good news is that Fastapi has a built-in documentation page. We'll use the default Swagger UI.
 
-Additionnally, a web documentation would be nice, however, it would probably take too much time.
+Additionnally, a web documentation is provided. 
