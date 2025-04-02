@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: python:3.11-slim-bookworm
     environment: dev  # Define the environment
 
     steps:
@@ -44,7 +44,7 @@ jobs:
         run: docker ps -a
 
       - name: ✅ Run tests
-        run: docker compose exec api pytest --cov=src tests/ -v
+        run: docker compose exec api pytest tests/ -v
 
       - name: Install MkDocs dependencies
         run: pip install mkdocs mkdocs-material
