@@ -1,6 +1,7 @@
-# peaks
+# Peaks
 
 A simple web service for storing and retrieving mountain peaks. This is a job application exercise.
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=nojoven)](https://github.com/nojoven/peaks)
 
 ## Expected results
 
