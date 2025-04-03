@@ -5,7 +5,7 @@ This documentation provides a comprehensive guide to the Peaks API project, a si
 ## Table of Contents
 
 - [Home](index.md)
-- ***[Try Out Now](http://127.0.0.1:8000/auth/login)***
+- ***[Try Out Now](https://peaks.onrender.com/auth/login)***
 - [API Reference](api_reference.md)
 - [Database](database.md)
 - [Configuration](configuration.md)
@@ -35,7 +35,7 @@ This project is built using:
 
 ## Try it out
 
-Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/login)***
+Connect to try it out **online**. Click ***[HERE](https://peaks.onrender.com/auth/login)***
 
 ### Prerequisites
 
