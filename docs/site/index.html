@@ -314,6 +314,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mkdocs-local-documentation-in-your-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      MkDocs local documentation in your browser
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#follow-us-on-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      Follow us on GitHub
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -527,6 +554,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mkdocs-local-documentation-in-your-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      MkDocs local documentation in your browser
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#follow-us-on-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      Follow us on GitHub
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -548,7 +602,7 @@
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="./">Home</a></li>
-<li><a href="http://127.0.0.1:8000/auth/login">Try it out</a></li>
+<li><strong><em><a href="https://peaks.onrender.com/auth/login">Try Out Now</a></em></strong></li>
 <li><a href="api_reference/">API Reference</a></li>
 <li><a href="database/">Database</a></li>
 <li><a href="configuration/">Configuration</a></li>
@@ -556,6 +610,13 @@
 <li><a href="security/">Security</a></li>
 </ul>
 <h2 id="home">Home</h2>
+<p>This documentation is accessible online, <a href="https://peaks.onrender.com/">here</a>.
+The API is currently running in a development environment.</p>
+<ol>
+<li>Open the <a href="https://peaks.onrender.com/">web page of the documentation</a>.</li>
+<li>Click on <strong><em>Try Out Now</em></strong> in the summary to authenticate.</li>
+<li>Land on the list of all peaks that are currently stored in the database.</li>
+</ol>
 <p>Welcome to the Mountain Peaks API documentation. This API allows you to manage mountain peak data, including creating, reading, updating, and deleting peak records, as well as retrieving peaks within a specified geographical bounding box.</p>
 <p>This project is built using:</p>
 <ul>
@@ -565,11 +626,13 @@
 <li><strong>PostgreSQL:</strong> As the database backend.</li>
 <li><strong>Docker &amp; Docker Compose:</strong> For containerization and deployment.</li>
 <li><strong>GitHub Actions:</strong> For continuous integration and deployment.</li>
+<li><strong>MkDocs:</strong> For the web documentation.</li>
 </ul>
 <h2 id="try-it-out">Try it out</h2>
-<p>Connect to try it out.</p>
+<p>Connect to try it out <strong>online</strong>. Click <strong><em><a href="https://peaks.onrender.com/auth/login">HERE</a></em></strong></p>
 <h3 id="prerequisites">Prerequisites</h3>
 <ul>
+<li>Python &gt; 3.11</li>
 <li>Docker and Docker Compose installed.</li>
 <li>Postman or <code>curl</code> for testing API endpoints.</li>
 </ul>
@@ -580,6 +643,9 @@
 <p><code>bash
 git clone [https://github.com/nojoven/peaks.git](https://github.com/nojoven/peaks.git)
 cd peaks</code></p>
+</li>
+<li>
+<p>Complete the <code>.env</code> file with the required environment variables.</p>
 </li>
 <li>
 <p>Start the containers:</p>
@@ -600,12 +666,12 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "latitude": 45.8326,
   "longitude": 6.8652,
   "altitude": 4808.73
-}' http://localhost:8000/peaks/</code></p>
+}' http://localhost:8000/peaks/create</code></p>
 </li>
 <li>
 <p><strong>Get a Peak:</strong></p>
 <p><code>bash
-curl http://localhost:8000/peaks/1</code></p>
+curl http://localhost:8000/peaks/peak/1</code></p>
 </li>
 <li>
 <p><strong>Get Peaks within a bounding box:</strong></p>
@@ -624,6 +690,48 @@ curl http://localhost:8000/peaks/?min_lat=44.5&amp;max_lat=46.5&amp;min_lon=5.5&
 <li>Add more tests.</li>
 <li>Add security measures.</li>
 </ul>
+<h2 id="unit-tests">Unit tests</h2>
+<p>We use pytest for unit testing. If you want to run the tests locally, you can use the following command:</p>
+<pre><code class="language-bash">pytest --cov=src --cov-report=term-missing tests/ -v
+</code></pre>
+<p>You will need a python virtual environment to do so:</p>
+<ol>
+<li>
+<p>At the root of the project, run:</p>
+<p><code>bash
+python -m venv .venv</code></p>
+</li>
+<li>
+<p>Activate the virtual environment:</p>
+<p><code>bash
+source .venv/bin/activate # or .venv\Scripts\activate on Windows</code></p>
+</li>
+<li>
+<p>Install the dependencies:</p>
+<p><code>bash
+pip install -r requirements.txt</code></p>
+</li>
+<li>
+<p>Run the tests:</p>
+<p><code>bash
+pytest --cov=src --cov-report=term-missing tests/ -v</code></p>
+</li>
+</ol>
+<h2 id="mkdocs-local-documentation-in-your-browser">MkDocs local documentation in your browser</h2>
+<p>You will need an activated python virtual environment as well. Please see the previous section. Then, follow these steps:</p>
+<ol>
+<li>
+<p>At the root of the project, run:</p>
+<p><code>bash
+mkdocs build -f docs/mkdocs.yml --clean</code></p>
+</li>
+<li>
+<p>Run</p>
+<p><code>bash
+mkdocs serve</code></p>
+</li>
+</ol>
+<h2 id="follow-us-on-github">Follow us on <strong><a href="https://github.com/nojoven/peaks">GitHub</a></strong></h2>
 
 
 

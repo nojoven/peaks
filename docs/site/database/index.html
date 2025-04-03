@@ -476,7 +476,8 @@
 <p>Alembic is used for database migrations.</p>
 <h2 id="environment-variables">Environment Variables</h2>
 <ul>
-<li><code>DATABASE_URL</code>: PostgreSQL database connection URL.</li>
+<li><code>DATABASE_URL</code>: PostgreSQL database connection URL.
+It must start with <code>postgresql+psycopg://</code> because we use the <code>psycopg 3</code> driver.</li>
 </ul>
 
 

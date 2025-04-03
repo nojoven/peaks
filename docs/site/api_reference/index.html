@@ -270,11 +270,68 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-key-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Key Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oauth-authentication-with-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      OAuth Authentication with GitHub
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       Endpoints
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important" class="md-nav__link">
+    <span class="md-ellipsis">
+      IMPORTANT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peaks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Peaks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -428,11 +485,68 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-key-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Key Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oauth-authentication-with-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      OAuth Authentication with GitHub
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       Endpoints
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important" class="md-nav__link">
+    <span class="md-ellipsis">
+      IMPORTANT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peaks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Peaks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -481,7 +595,18 @@
 
 <h1 id="api-reference">API Reference</h1>
 <p>This section documents the API endpoints and their parameters, reflecting the current implementation using FastAPI and SQLModel.</p>
+<h2 id="authentication">Authentication</h2>
+<h3 id="api-key-authentication">API Key Authentication</h3>
+<p>Contact the administrator to obtain an API key.</p>
+<h3 id="oauth-authentication-with-github">OAuth Authentication with GitHub</h3>
+<p>Contact the administrator to obtain the OAuth client ID and secret as well as the required URLs.</p>
+<p>The present router is prefixed with "auth/" so the endpoints are only accessible at "auth/endpoint".
+The callback endpoint is "auth/auth".</p>
 <h2 id="endpoints">Endpoints</h2>
+<h3 id="important">IMPORTANT</h3>
+<p>The HTTP responses status codes need to be reviewed and updated.
+Server errors should be 5xx, not 4xx. We will improve this later</p>
+<h3 id="peaks">Peaks</h3>
 <ul>
 <li><strong><code>GET /peaks/peak/{peak_id}</code>:</strong> Retrieve a peak by its ID.</li>
 <li>Parameters:<ul>

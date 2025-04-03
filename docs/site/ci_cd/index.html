@@ -344,6 +344,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branches
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web deployment
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -409,6 +436,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branches
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web deployment
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -430,8 +484,21 @@
 <h2 id="github-actions-workflow">GitHub Actions Workflow</h2>
 <ul>
 <li>Builds Docker images for test and production environments.</li>
-<li>Runs unit tests with coverage reporting.</li>
+<li>Runs unit tests with coverage reporting (commented because of error 137 -not enough memory).</li>
 </ul>
+<h2 id="branches">Branches</h2>
+<ul>
+<li><code>main</code>: Main branch, protected by default.</li>
+<li><code>develop</code>: Development branch, protected by default.</li>
+</ul>
+<h2 id="environments">Environments</h2>
+<ul>
+<li><code>dev</code>: Development environment.</li>
+<li><code>prod</code>: Production environment. The main branch will be deployed there.</li>
+</ul>
+<h2 id="web-deployment">Web deployment</h2>
+<p>We use <a href="https://render.com/">Render</a> for web deployment. For the moment, the production environment is not set up.
+You can try it out the development environment <a href="https://peaks.onrender.com/">here</a>.</p>
 
 
 

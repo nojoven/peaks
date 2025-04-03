@@ -140,7 +140,7 @@ You will need an activated python virtual environment as well. Please see the pr
 1. At the root of the project, run:
 
     ```bash
-    mkdocs build --clean
+    mkdocs build -f docs/mkdocs.yml --clean
     ```
 
 2. Run
