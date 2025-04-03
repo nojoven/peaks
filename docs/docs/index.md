@@ -52,13 +52,15 @@ Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/log
     cd peaks
     ```
 
-2. Start the containers:
+2. Complete the `.env` file with the required environment variables.
+
+3. Start the containers:
 
     ```bash
     docker-compose up --build
     ```
 
-3. The API will be available at `http://localhost:8000`.
+4. The API will be available at `http://localhost:8000`.
 
 ### Example Requests
 
@@ -70,13 +72,13 @@ Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/log
       "latitude": 45.8326,
       "longitude": 6.8652,
       "altitude": 4808.73
-    }' http://localhost:8000/peaks/
+    }' http://localhost:8000/peaks/create
     ```
 
 - **Get a Peak:**
 
     ```bash
-    curl http://localhost:8000/peaks/1
+    curl http://localhost:8000/peaks/peak/1
     ```
 
 - **Get Peaks within a bounding box:**
@@ -84,8 +86,6 @@ Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/log
     ```bash
     curl http://localhost:8000/peaks/?min_lat=44.5&max_lat=46.5&min_lon=5.5&max_lon=7.5
     ```
-
-
 
 ## To be added
 
@@ -97,3 +97,5 @@ Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/log
 - More comprehensive documentation.
 - Add more tests.
 - Add security measures.
+
+## Follow us on **[GitHub](https://github.com/nojoven/peaks)**

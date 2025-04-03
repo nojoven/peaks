@@ -105,8 +105,11 @@ async def get_peaks_in_bounding_box(
         raise HTTPException(status_code=404, detail="No peaks found in the bounding box")
     return peaks
 
-
+# Retrieve all peaks
 @router.get("/peaks", response_model=List[Peak])
 @require_login
 async def fetch_peaks(request: Request, db: Session = Depends(get_db)):
+    """
+    Fetch all peaks and return them in a list of dictionaries.
+    """
     return db.exec(select(Peak)).all()
