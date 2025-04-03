@@ -16,10 +16,13 @@ RUN apt-get update && apt-get install -y \
 
 # Create and activate Python virtual environment
 RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+
+# Set VIRTUAL_ENV and update PATH (this is crucial)
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
 # ---
 
@@ -28,7 +31,10 @@ FROM python:3.11-slim-bookworm
 
 # Copy virtual environment from builder stage
 COPY --from=builder /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+
+# Set VIRTUAL_ENV and update PATH in runtime
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy entire project (mirrors local structure)
 COPY . /peaks
