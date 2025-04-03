@@ -98,4 +98,56 @@ Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/log
 - Add more tests.
 - Add security measures.
 
+
+## Unit tests
+
+We use pytest for unit testing. If you want to run the tests locally, you can use the following command:
+
+```bash
+pytest --cov=src --cov-report=term-missing tests/ -v
+```
+
+You will need a python virtual environment to do so:
+
+1. At the root of the project, run:
+
+    ```bash
+    python -m venv .venv
+    ```
+
+2. Activate the virtual environment:
+
+    ```bash
+    source .venv/bin/activate # or .venv\Scripts\activate on Windows
+    ```
+
+3. Install the dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Run the tests:
+
+    ```bash
+    pytest --cov=src --cov-report=term-missing tests/ -v
+    ```
+
+## MkDocs local documentation in your browser
+
+You will need an activated python virtual environment as well. Please see the previous section. Then, follow these steps:
+
+1. At the root of the project, run:
+
+    ```bash
+    mkdocs build --clean
+    ```
+
+2. Run
+
+    ```bash
+    mkdocs serve
+    ```
+
+
 ## Follow us on **[GitHub](https://github.com/nojoven/peaks)**
