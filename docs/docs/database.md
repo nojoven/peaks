@@ -18,3 +18,4 @@ Alembic is used for database migrations.
 ## Environment Variables
 
 - `DATABASE_URL`: PostgreSQL database connection URL.
+It must start with `postgresql+psycopg://` because we use the `psycopg 3` driver.

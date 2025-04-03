@@ -31,13 +31,15 @@ This project is built using:
 - **PostgreSQL:** As the database backend.
 - **Docker & Docker Compose:** For containerization and deployment.
 - **GitHub Actions:** For continuous integration and deployment.
+- **MkDocs:** For the web documentation.
 
 ## Try it out
 
-Connect to try it out. Click ***[HERE](http://127.0.0.1:8000/auth/login)***
+Connect to try it out **online**. Click ***[HERE](http://127.0.0.1:8000/auth/login)***
 
 ### Prerequisites
 
+- Python > 3.11
 - Docker and Docker Compose installed.
 - Postman or `curl` for testing API endpoints.
 

@@ -2,7 +2,26 @@
 
 This section documents the API endpoints and their parameters, reflecting the current implementation using FastAPI and SQLModel.
 
+## Authentication
+
+### API Key Authentication
+
+Contact the administrator to obtain an API key.
+
+### OAuth Authentication with GitHub
+
+Contact the administrator to obtain the OAuth client ID and secret as well as the required URLs.
+
+The present router is prefixed with "auth/" so the endpoints are only accessible at "auth/endpoint".
+The callback endpoint is "auth/auth".
+
 ## Endpoints
+
+### IMPORTANT
+The HTTP responses status codes need to be reviewed and updated.
+Server errors should be 5xx, not 4xx. We will improve this later
+
+### Peaks
 
 - **`GET /peaks/peak/{peak_id}`:** Retrieve a peak by its ID.
   - Parameters:
