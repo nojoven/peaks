@@ -5,7 +5,7 @@ This documentation provides a comprehensive guide to the Peaks API project, a si
 ## Table of Contents
 
 - [Home](index.md)
-- [Try it out](http://127.0.0.1:8000/auth/login)
+- ***[Try Out Now](http://127.0.0.1:8000/auth/login)***
 - [API Reference](api_reference.md)
 - [Database](database.md)
 - [Configuration](configuration.md)
@@ -13,6 +13,13 @@ This documentation provides a comprehensive guide to the Peaks API project, a si
 - [Security](security.md)
 
 ## Home
+
+This documentation is accessible online, [here](https://peaks.onrender.com/).
+The API is currently running in a development environment.
+
+1. Open the [web page of the documentation](https://peaks.onrender.com/).
+2. Click on ***Try Out Now*** in the summary to authenticate.
+3. Land on the list of all peaks that are currently stored in the database.
 
 Welcome to the Mountain Peaks API documentation. This API allows you to manage mountain peak data, including creating, reading, updating, and deleting peak records, as well as retrieving peaks within a specified geographical bounding box.
 
@@ -27,8 +34,7 @@ This project is built using:
 
 ## Try it out
 
-Connect to try it out.
-
+Connect to try it out. Click ***[HERE](http://127.0.0.1:8000/auth/login)***
 
 ### Prerequisites
 
