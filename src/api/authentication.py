@@ -68,11 +68,11 @@ def configure_oauth():
     Retrieve OAuth environment variables.
     """
     required_vars = (
-        os.getenv('GITHUB_CLIENT_ID'),
-        os.getenv('GITHUB_CLIENT_SECRET'),
-        os.getenv('GITHUB_ACCESS_TOKEN_URL'),
-        os.getenv('GITHUB_AUTHORIZE_URL'),
-        os.getenv('GITHUB_API_BASE_URL')
+        os.getenv('OAUTH_GITHUB_CLIENT_ID'),
+        os.getenv('OAUTH_GITHUB_CLIENT_SECRET'),
+        os.getenv('OAUTH_GITHUB_ACCESS_TOKEN_URL'),
+        os.getenv('OAUTH_GITHUB_AUTHORIZE_URL'),
+        os.getenv('OAUTH_GITHUB_API_BASE_URL')
     )
     if not all(required_vars):
         raise ValueError("Missing Valid GitHub OAuth Secret Values. Please check environment variables and secrets.")
@@ -80,13 +80,13 @@ def configure_oauth():
     # Configure GitHub OAuth
     oauth.register(
         name='github',
-        client_id=os.getenv('GITHUB_CLIENT_ID'),        # Set in environment
-        client_secret=os.getenv('GITHUB_CLIENT_SECRET'),  # Set in environment
-        access_token_url=os.getenv('GITHUB_ACCESS_TOKEN_URL'),
+        client_id=os.getenv('OAUTH_GITHUB_CLIENT_ID'),        # Set in environment
+        client_secret=os.getenv('OAUTH_GITHUB_CLIENT_SECRET'),  # Set in environment
+        access_token_url=os.getenv('OAUTH_GITHUB_ACCESS_TOKEN_URL'),
         access_token_params=None,
-        authorize_url=os.getenv('GITHUB_AUTHORIZE_URL'),
+        authorize_url=os.getenv('OAUTH_GITHUB_AUTHORIZE_URL'),
         authorize_params=None,
-        api_base_url=os.getenv('GITHUB_API_BASE_URL'),
+        api_base_url=os.getenv('OAUTH_GITHUB_API_BASE_URL'),
         client_kwargs={'scope': 'user:email'},
     )
 
@@ -112,8 +112,8 @@ async def revoke_github_token(access_token: str):
     """Revoke GitHub OAuth token."""
     async with httpx.AsyncClient() as client:
         response = await client.delete(
-            f"https://api.github.com/applications/{os.getenv('GITHUB_CLIENT_ID')}/token",
-            auth=(os.getenv('GITHUB_CLIENT_ID'), os.getenv('GITHUB_CLIENT_SECRET')),
+            f"https://api.github.com/applications/{os.getenv('OAUTH_GITHUB_CLIENT_ID')}/token",
+            auth=(os.getenv('OAUTH_GITHUB_CLIENT_ID'), os.getenv('OAUTH_GITHUB_CLIENT_SECRET')),
             json={"access_token": access_token},
         )
     return response.status_code == 204
