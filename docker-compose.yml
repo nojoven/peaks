@@ -19,6 +19,7 @@ services:
           memory: 2G # Adjust as needed
 
   db:
+    container_name: peaks-db-1
     image: postgres:16-bookworm
     env_file: .env
     environment:
@@ -36,13 +37,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  alembic:
-    env_file: .env
-    build: .
-    command: alembic upgrade head
-    depends_on:
-      db:
-        condition: service_healthy
+  # alembic:
+  #   env_file: .env
+  #   build: .
+  #   command: alembic upgrade head
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
 
 volumes:
   postgres_data:

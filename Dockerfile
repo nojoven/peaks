@@ -49,5 +49,10 @@ EXPOSE 8000
 # Copy MkDocs documentation
 COPY docs/site /app/docs/site
 
-# Launch FastAPI with Uvicorn
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Copy the entrypoint script from the root (peaks/entrypoint.sh)
+COPY entrypoint.sh /peaks/entrypoint.sh
+# Ensure the entrypoint script is executable
+RUN chmod +x /peaks/entrypoint.sh
+
+# Launch FastAPI with Uvicorn via the entrypoint script
+CMD ["sh", "/peaks/entrypoint.sh"]
