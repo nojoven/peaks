@@ -1,5 +1,5 @@
 import os
-
+from alembic import context
 
 def get_db_url():
     """
@@ -35,4 +35,10 @@ def get_db_url():
         raise ValueError("DATABASE_NAME is not set in the environment variables.")
 
     # Connection string
-    return f"{DATABASE_ENGINE}://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_ADDRESS}:{DATABASE_PORT}/{DATABASE_NAME}"
+    db_connection_string = f"{DATABASE_ENGINE}://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_ADDRESS}:{DATABASE_PORT}/{DATABASE_NAME}"
+
+    # Update the configuration
+    config = context.config
+    config.set_main_option('sqlalchemy.url', db_connection_string)
+    
+    return db_connection_string
