@@ -31,7 +31,7 @@ jobs:
           docker system prune -f || true
 
       - name: 🐳 Start Docker Compose
-        run: docker compose up -d
+        run: docker compose --env-file .env.ci up -d
 
       - name: ⏳ Wait for PostgreSQL
         run: |
