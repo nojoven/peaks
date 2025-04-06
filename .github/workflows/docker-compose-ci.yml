@@ -18,12 +18,12 @@ jobs:
 
       - name: 🔑 Create .env file with secrets
         run: |
-          echo "DATABASE_ENGINE=${{ secrets.DATABASE_ENGINE }}" >> .env
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
-          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
-          echo "DATABASE_ADDRESS=${{ secrets.DATABASE_ADDRESS }}" >> .env
+          echo "DATABASE_ENGINE=${{ secrets.DATABASE_ENGINE }}" >> .env.ci
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.ci
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.ci
+          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env.ci
+          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env.ci
+          echo "DATABASE_ADDRESS=${{ secrets.DATABASE_ADDRESS }}" >> .env.ci
 
       - name: 🧼 Clean previous containers and volumes
         run: |
@@ -33,19 +33,19 @@ jobs:
       - name: 🐳 Start Docker Compose
         run: docker compose up -d
 
-      # - name: ⏳ Wait for PostgreSQL
-      #   run: |
-      #     echo "Waiting for PostgreSQL..."
-      #     for i in {1..40}; do
-      #       docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -c "SELECT 1" && break
-      #       echo "PostgreSQL not ready yet, waiting..."
-      #       sleep 2
-      #     done
+      - name: ⏳ Wait for PostgreSQL
+        run: |
+          echo "Waiting for PostgreSQL..."
+          for i in {1..40}; do
+            docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -c "SELECT 1" && break
+            echo "PostgreSQL not ready yet, waiting..."
+            sleep 2
+          done
 
-      # - name: 🔥 Drop & recreate DB
-      #   run: |
-      #     docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -d postgres -c "DROP DATABASE IF EXISTS ${{ secrets.DATABASE_NAME }};"
-      #     docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -d postgres -c "CREATE DATABASE ${{ secrets.DATABASE_NAME }};"
+      - name: 🔥 Drop & recreate DB
+        run: |
+          docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -d postgres -c "DROP DATABASE IF EXISTS ${{ secrets.DATABASE_NAME }};"
+          docker compose exec -T db psql -U ${{ secrets.POSTGRES_USER }} -d postgres -c "CREATE DATABASE ${{ secrets.DATABASE_NAME }};"
 
       - name: 🔄 Run Alembic migrations
         run: docker compose exec -T api alembic upgrade head
