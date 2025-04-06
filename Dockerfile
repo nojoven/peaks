@@ -38,6 +38,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy entire project (mirrors local structure)
 COPY . /peaks
+COPY alembic.ini /peaks/alembic.ini
 WORKDIR /peaks  # All commands will run from /peaks
 
 # Set Python path (optional, helps with imports)
