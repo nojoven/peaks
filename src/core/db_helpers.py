@@ -1,5 +1,4 @@
 import os
-from alembic import context
 
 def get_db_url():
     """
